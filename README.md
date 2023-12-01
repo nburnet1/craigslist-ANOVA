@@ -75,7 +75,7 @@ Considering the proximity of Asheville and Greenville, it's important to assess 
 The data's normal distribution is confirmed through the Shapiro-Wilk test and visual assessments (see Figures 1 and 2), ensuring that the data aligns closely with a normal distribution.
 ## C. Have standard deviations for each group approximately the same
 Examining standard deviations in the summary statistics, both groups show similar values, differing by only about 543. This consistency validates the assumption of roughly equal variability.
-These assessments assure the validity of the data and will allow for an ANOVA analysis.
+These assessments ensure the validity of the data and will allow for an ANOVA analysis.
 # One-Way ANOVA
 
 ## Results
