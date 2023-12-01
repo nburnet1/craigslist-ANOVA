@@ -5,14 +5,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
-# Step 1: Load the data from the CSV files
-avl_file_path = 'sorted_avl.csv'  # Replace 'avl.csv' with the actual file path
-gvl_file_path = 'sorted_gvl.csv'  # Replace 'gvl.csv' with the actual file path
 
-avl_count_path ='avl_count.csv'
-gvl_count_path ='gvl_count.csv'
+avl_file_path = 'data/sorted_avl.csv'
+gvl_file_path = 'data/sorted_gvl.csv'  
+avl_count_path ='data/avl_count.csv'
+gvl_count_path ='data/gvl_count.csv'
 
-# Load the datasets
+
 avl_data = pd.read_csv(avl_file_path)
 gvl_data = pd.read_csv(gvl_file_path)
 
@@ -20,7 +19,7 @@ avl_count = pd.read_csv(avl_count_path)
 gvl_count = pd.read_csv(gvl_count_path)
 
 
-# Assuming both datasets have a column named 'price'
+
 avl_prices = avl_data['price']
 gvl_prices = gvl_data['price']
 
@@ -30,35 +29,35 @@ gvl_mean = gvl_prices.mean()
 avl_std = np.std(avl_prices)
 gvl_std = np.std(gvl_prices)
 
-# Perform ANOVA
+
 avl_shap,temp = shapiro(avl_prices)
 gvl_shap,temp = shapiro(gvl_prices)
 
 f_statistic, p_value = f_oneway(avl_prices, gvl_prices)
 all_prices = np.concatenate([avl_prices, gvl_prices])
 
-# Calculate Grand Mean
+
 grand_mean = (avl_mean + gvl_mean) / 2
 
-# Calculate Sum of Squares Total (SST)
+
 sst = np.sum((all_prices - grand_mean)**2)
 
-# Calculate Sum of Squares Between (SSB)
+
 ssb = len(avl_prices) * (avl_mean - grand_mean)**2 + len(gvl_prices) * (gvl_mean
  - grand_mean)**2
 
-# Calculate Sum of Squares Within (SSW)
+
 ssw = sst - ssb
 
-# Degrees of Freedom
-df_between = 2 - 1  # Number of groups - 1
-df_within = len(all_prices) - 2  # Total number of observations - Number of groups
 
-# Mean Squares
+df_between = 2 - 1  
+df_within = len(all_prices) - 2
+
+
 ms_between = ssb / df_between
 ms_within = ssw / df_within
 
-# Print results
+
 print(f'Asheville Mean: {avl_mean:.2f}')
 print(f'Greenville Mean: {gvl_mean:.2f}')
 print(f'Asheville Standard Deviation: {avl_std:.2f}')
@@ -76,7 +75,7 @@ print(f"Shapiro-Wilk Test for Greenville: {gvl_shap}")
 print(f'F-statistic: {f_statistic:.2f}')
 print(f'P-value: {p_value:.2f}')
 
-# Interpret the results
+
 alpha = 0.05
 if p_value < alpha:
     print("Reject the null hypothesis. There is a significant difference in prices.")
@@ -89,7 +88,6 @@ else:
 
 data = pd.DataFrame({'Prices': np.concatenate([avl_prices, gvl_prices]),
                      'City': np.repeat(['Asheville', 'Greenville'], [len(avl_prices), len(gvl_prices)])})
-# Boxplot
 plt.figure(figsize=(10, 6))
 sns.boxplot(x='City', y='Prices', data=data, color="slategray")
 plt.title('Distribution of Prices Between Asheville and Greenville')
